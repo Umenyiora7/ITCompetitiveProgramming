@@ -1,0 +1,60 @@
+#include"stdio.h"
+#include"stdlib.h"
+#include"math.h"
+typedef struct maillon maillon;
+struct maillon
+{
+    int v;
+    maillon *suiv;
+};
+typedef maillon*liste;
+void inserer(liste *l,int v) {
+    liste p,q;
+    if(*l==NULL) {
+        *l=(maillon*)malloc(sizeof(struct maillon));
+        (*l)->v=v;
+        (*l)->suiv=NULL;
+    }
+    else {
+        q=*l;
+        while(q->suiv!=NULL) {
+            q=q->suiv;
+        }
+        p=(maillon*)malloc(sizeof(struct maillon));
+        p->v=v;
+        p->suiv=NULL;
+        q->suiv=p;
+    }
+}
+void delete(liste *l) {
+    liste q,p=*l;
+    while(p->suiv!=NULL) {
+        if(p->v==p->suiv->v) {
+            q=p->suiv;
+            p->suiv=q->suiv;
+            q=NULL;
+        } else {
+            p=p->suiv;
+        }
+    }
+}
+int main() {
+    liste l,d;
+    d=NULL;
+    l=NULL;
+    inserer(&l,1);
+    inserer(&l,1);
+    inserer(&l,2);
+    inserer(&l,2);
+    inserer(&l,3);
+    d=l;
+    while(d!=NULL) {
+        printf("%d\n",d->v);
+        d=d->suiv;
+    }
+    delete(&l);
+    while(l!=NULL) {
+        printf("%d",l->v);
+        l=l->suiv;
+    }
+}
